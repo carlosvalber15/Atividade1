@@ -1,0 +1,62 @@
+# Carregar os pacotes necessários
+pacman::p_load(
+  janitor,  # Para ETL (Extract, Transform, Load)
+  ade4,     # Para discretização
+  arules,   # Para regras de associação
+  forcats   # Para trabalhar com fatores
+)
+
+# Carregar o conjunto de dados do Facebook a partir de uma URL
+facebook <- read.table(
+  "https://raw.githubusercontent.com/hugoavmedeiros/ciencia_politica_com_r/master/bases_originais/dataset_Facebook.csv", 
+  sep=";", 
+  header = T
+)
+
+# Visualizar a estrutura do conjunto de dados
+str(facebook)
+
+# Conversão de colunas em fatores
+for(i in 2:7) {
+  facebook[, i] <- as.factor(facebook[, i])
+} 
+
+# Visualizar a estrutura após a conversão para fatores
+facebook %>% str()
+
+# Filtrar colunas que são fatores
+factorsFacebook <- unlist(lapply(facebook, is.factor))  
+facebookFactor <- facebook[, factorsFacebook]
+str(facebookFactor)
+
+# Realizar One-Hot Encoding para os fatores
+facebookDummy <- facebookFactor %>% acm.disjonctif()
+
+# Filtrar colunas que são inteiros
+inteirosFacebook <- unlist(lapply(facebook, is.integer))  
+facebookInteiros <- facebook[, inteirosFacebook]
+facebookInteiros %>% str()
+
+# Discretização de uma coluna específica ("Page.total.likes") em intervalos
+facebookInteiros$Page.total.likes.Disc <- discretize(
+  facebookInteiros$Page.total.likes, 
+  method = "interval", 
+  breaks = 3, 
+  labels = c("poucos", 'médio', 'muitos')
+)
+
+# Simplificar nomes de colunas usando janitor
+facebookInteiros <- facebookInteiros %>% clean_names()
+
+# Visualizar os nomes das colunas após a limpeza
+facebookInteiros %>% names()
+
+# Usar forcats para análise de fatores
+# Contagem de valores únicos na coluna "Type"
+fct_count(facebookFactor$Type)
+
+# Anonimizar os fatores na coluna "Type"
+fct_anon(facebookFactor$Type)
+
+# Reclassificar os fatores na coluna "Type" em mais comum e outros
+fct_lump(facebookFactor$Type, n = 1)
