@@ -1,0 +1,87 @@
+data(mtcars)  
+
+head(mtcars)
+View(mtcars)
+
+### CARREGAR PACOTES
+pacman::p_load(ccaPP, lsa, minerva, Rfast)
+
+### CRIAR FUNÇÃO PARA RODAR VÁRIAS ASSOCIAÇÕES
+multi.cor <- function(x, y) {
+  
+  c(cor = cor(x, y), # Correlação
+    dcor = dcor(x, y), # Distance correlation
+    cosine = cosine(x, y), # Distância do Cosseno 
+    maxCor = maxCorProj(x, y), # Maximal correlation
+    MIC = mine (x, y) #  Maximal Information Coefficient
+  )
+}
+
+### EXEMPLO 1 LINEAR
+x <- runif(500, 0, 10)
+y <- 10 - 1.5*x
+
+plot(x, y) # Plotar o gráfico
+
+corList <- multi.cor(x, y)
+names(corList)
+corList <- corList[c(1,5,6,7, 15)]
+corList
+
+### EXEMPLO 1 LINEAR
+x <- mtcars$mpg
+y <- mtcars$hp
+
+plot(x, y) # Plotar o gráfico
+
+corList <- multi.cor(x, y)
+names(corList)
+corList <- corList[c("cor", "MIC", "cosine", "maxCor", "dcor")]
+corList
+
+### EXEMPLO 1.1 LINEAR
+y1 <- mtcars$disp
+
+plot(x, y1)
+
+corList1 <- multi.cor(x, y1)
+
+corList1 <- corList1[c("cor", "MIC", "cosine", "maxCor", "dcor")]
+corList1
+
+### EXEMPLO 1.2 LINEAR
+y2 <- mtcars$qsec
+
+plot(x, y2)
+
+corList2 <- multi.cor(x, y2)
+corList2 <- corList2[c("cor", "MIC", "cosine", "maxCor", "dcor")]
+corList2
+
+### EXEMPLO 2 QUADRÁTICA
+k <- mtcars$drat
+l <- mtcars$wt
+
+plot(k, l)
+
+corList <- multi.cor(k, l)
+corList <- corList[c("cor", "MIC", "cosine", "maxCor", "dcor")]
+corList
+
+### EXEMPLO 2.1 QUADRÁTICA
+l1 <- mtcars$am
+
+plot(k, l1)
+
+corList3 <- multi.cor(k, l1)
+corList3 <- corList3[c("cor", "MIC", "cosine", "maxCor", "dcor")]
+corList3
+
+### EXEMPLO 2.2 QUADRÁTICA
+l2 <- mtcars$gear
+
+plot(k, l2)
+
+corList4 <- multi.cor(k, l2)
+corList4 <- corList4[c("cor", "MIC", "cosine", "maxCor", "dcor")]
+corList4
