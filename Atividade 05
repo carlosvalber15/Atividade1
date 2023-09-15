@@ -1,0 +1,32 @@
+# PACOTES
+pacman::p_load(data.table)
+
+# LEITURA DA BASE DE DADOS MTCARS
+mtcars <- mtcars
+
+# TESTE DE CORRELAÇÃO
+cor.test(mtcars$mpg, mtcars$disp)
+# H0: Não há correlação linear entre mpg e disp. p-valor (p-value) > 0.05
+# H1: Existe correlação linear entre mpg e disp. p-valor (p-value) <= 0.05
+t.test(mtcars$mpg, mu = 20)
+shapiro.test(mtcars$mpg)
+hist(mtcars$mpg)
+
+# Normalização da coluna "mpg" entre 0 e 1
+normalized_mpg <- (mtcars$mpg - min(mtcars$mpg)) / (max(mtcars$mpg) - min(mtcars$mpg))
+shapiro.test(normalized_mpg)
+hist(normalized_mpg)
+
+
+
+# LEITURA PARA TESTE DE FREQUÊNCIAS
+pixar_filmes <- data.frame(
+  Genero = c("Ação", "Aventura", "Comédia", "Ação", "Aventura"),
+  Classificacao = c("Livre", "Livre", "10 anos", "Livre", "10 anos")
+)
+
+# Realizar o teste qui-quadrado entre as variáveis "Genero" e "Classificacao"
+result <- chisq.test(pixar_filmes$Genero, pixar_filmes$Classificacao)
+
+# Exibir o resultado
+print(result)
