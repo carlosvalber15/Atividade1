@@ -1,0 +1,26 @@
+install.packages("dados")
+
+library(dados)
+
+View(pixar_filmes)
+
+dplyr::glimpse(dados::pixar_filmes)
+# Carregar pacotes que serão usados
+pacman::p_load(dplyr, ggplot2, dados)
+
+# Visualizar a estrutura da base pixar_filmes
+glimpse(pixar_filmes)
+
+# Gráfico de Caixas Univariado
+pixar_filmes %>% ggplot(aes(y = filme)) + geom_boxplot()
+
+# Gráfico de Caixas Multivariado
+pixar_filmes %>% ggplot(aes(y = filme, x = duracao)) + geom_boxplot()
+
+# Histograma
+pixar_filmes %>% ggplot(aes(x = duracao)) + geom_histogram()
+
+# Densidade
+pixar_filmes %>% ggplot(aes(x = duracao)) + geom_density()
+
+               
