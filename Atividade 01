@@ -1,0 +1,33 @@
+# Carregue a base de dados USArrests
+data("USArrests")
+
+# Tabela de frequência absoluta da variável Rape
+table(USArrests$Rape)
+
+# Tabela de frequência relativa da variável Rape
+prop.table(table(USArrests$Rape))
+
+# Média da variável Assault
+mean(USArrests$Assault)
+
+# Mediana da variável Assault
+median(USArrests$Assault)
+
+# Separatrizes da variável Assault
+quantile(USArrests$Assault, probs = 0.75)
+quantile(USArrests$Assault, probs = 0.10)
+quantile(USArrests$Assault, probs = 0.95)
+boxplot(USArrests$Assault) # Boxplot - gráfico que resume as sepatrizes
+
+# Desvio-padrão da variável Assault
+sd(USArrests$Assault)
+plot(USArrests$Assault)
+
+# Sumário descritivo básico das variáveis
+summary(USArrests)
+
+# Sumário descritivo completo das variáveis usando o pacote fBasics
+pacman::p_load(fBasics)
+basicStats(USArrests)
+
+hist(USArrests$Assault) # Histograma - gráfico que permite conhecer a curva dos dados
